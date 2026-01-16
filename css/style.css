@@ -564,6 +564,7 @@ footer > div.footer > a {
   font-family: "DMSans";
   color: white;
   text-decoration: none;
+  font-size: 1rem;
 }
 
 button {
@@ -643,7 +644,8 @@ button {
   }
 
   img#terrain-grain {
-    width: 20%;
+    width: 40%;
+    align-self: flex-end;
   }
 
   section.number > h2 {
@@ -659,11 +661,6 @@ button {
 
   footer {
     height: 40vh;
-  }
-
-  footer a,
-  p {
-    font-size: 2rem;
   }
 
   h1 {
@@ -683,52 +680,75 @@ button {
   }
 
   section.home > img {
-  object-position: center 90%;
-}
+    object-position: center 90%;
+  }
 
-div.insightsOne,
-div.insightsTwo {
-  height: 50%;
-  display: grid;
-  align-items: center;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: repeat(3, 1fr);
-  grid-template-areas:
-    "a b"
-    "a b"
-    "a c";
-}
+  div.insightsOne,
+  div.insightsTwo {
+    height: 50%;
+    display: grid;
+    align-items: center;
+    grid-template-rows: 1fr 100px 1fr;
+    grid-template-columns: repeat(2, 1fr);
+  }
 
-div.insightsOne > h1 {
-  grid-area:b;
-  align-self: end;
-}
+  div.insightsOne {
+    grid-template-areas:
+      "a b"
+      "a b"
+      "a c";
+  }
 
-div.insightsOne > h3 {
-  grid-area: b;
-  font-size: 4rem;
-  align-self: end;
-}
+  div.insightsTwo {
+    grid-template-areas:
+      "b a"
+      "b a"
+      "c a";
+  }
 
-section.insights img {
-  grid-area: a;
-  width: 150px;
-  max-height: 100%;
-}
+  div.insightsOne > h1 {
+    grid-area: b;
+    align-self: end;
+  }
 
-section.insights p {
-  grid-area: c;
-  font-size: 2rem;
-  align-self: start;
-}
+  div.insightsOne > h3 {
+    grid-area: b;
+    font-size: 4rem;
+    align-self: end;
+  }
 
-section.form h3.form {
-  font-size: 4rem;
-}
+  div.insightsOne > img {
+    justify-self: flex-end;
+    margin-inline-end: 5rem;
+  }
 
-section.form form {
-  font-size: 4rem;
-}
+  div.insightsTwo > img {
+    margin-inline-start: 5rem;
+  }
+
+  section.insights img {
+    grid-area: a;
+    width: 100px;
+    max-height: 100%;
+  }
+
+  section.insights p {
+    grid-area: c;
+    font-size: 1.25rem;
+    align-self: start;
+  }
+
+  section.form h3.form {
+    font-size: 4rem;
+  }
+
+  section.form form {
+    font-size: 4rem;
+  }
+
+  div.figureOne {
+    align-self: end;
+  }
 
   @media screen and (min-width: 768px) and (hover: hover) {
     /* Ouvrir au hover comme au clic */
