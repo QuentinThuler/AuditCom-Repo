@@ -1,12 +1,17 @@
 <template>
-  <article>
-    <!-- data-bind-attr-src="logoUrl" : Affiche le logo de l'équipe -->
-    <img data-bind-attr-src="logoUrl" alt="Logo">
-    <!-- data-bind="teamName" : Affiche le nom de l'équipe -->
-    <h2 data-bind="teamName"></h2>
-    <!-- data-bind="uploadedAt" : Affiche la date de téléversement -->
-    <p data-bind="uploadedAt"></p>
-    <!-- data-bind="author" : Affiche l'auteur -->
-    <p data-bind="author"></p>
+  <article class="teamCard">
+    <!-- Tout ce qui est cliquable -->
+    <label class="teamInner">
+      <input class="teamToggle" type="checkbox" />
+      <!-- Logo -->
+      <div class="teamLogoWrap">
+        <img class="teamLogo" data-bind-attr-src="logoUrl" alt="Logo" />
+      </div>
+      <!-- Infos cachées au départ -->
+      <div class="teamMeta">
+        <h2 class="teamName" data-bind="teamName"></h2>
+        <p class="teamAuthor" data-bind="author"></p>
+      </div>
+    </label>
   </article>
 </template>

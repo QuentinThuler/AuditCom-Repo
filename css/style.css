@@ -23,17 +23,22 @@ html {
 
 body {
   background-color: #f0e4cc;
+  scroll-snap-type: y mandatory;
+  overflow-y: scroll;
 }
 
 section.home,
 section.intro,
-section#teamList,
-section.teamNumber,
-section.insightsOne,
-section.insightsTwo,
-section.insightsThree,
+section.number,
+section.insights,
 section.form {
   height: 100vh;
+  padding: 2rem;
+  scroll-snap-align: start;
+}
+
+section#teamList {
+  height: 120vh;
   padding: 2rem;
 }
 
@@ -87,7 +92,7 @@ div#buttonCTA a {
 h1 {
   font-family: "ZalandoSansExpanded", sans-serif;
   font-weight: 700;
-  color: #f0e4cc;
+  color: black;
   font-size: 4rem;
 }
 
@@ -98,21 +103,25 @@ h2 {
   font-size: 3.5rem;
 }
 
+div#homeTitle > h1 {
+  color: #f0e4cc;
+}
+
 div#homeTitle > h2 {
   color: #f0e4cc;
   text-align: right;
 }
 
 section.intro > div.image {
-    height: 50vh;
-    display: flex;
-    align-items: start;
+  height: 50%;
+  display: flex;
+  align-items: start;
 }
 
 section.intro > div.text {
-    height: 50vh;
-    display: flex;
-    flex-direction: column;
+  height: 50%;
+  display: flex;
+  flex-direction: column;
 }
 
 h3 {
@@ -123,16 +132,450 @@ h3 {
 }
 
 li {
-    font-family: "DMSans", sans-serif;
+  font-family: "DMSans", sans-serif;
   font-weight: 600;
   color: black;
-  font-size: 1.75rem;
+  font-size: 2rem;
 }
 
-section#teamList > div {
-    display: grid;
-    grid-template-columns: repeat(2, 1fr);
-    grid-template-rows: repeat(2, 1fr);
+div.text > h1,
+h2 {
+  height: 100%;
+}
+
+/* MOBILE – ouverture fluide */
+
+.teamInner {
+  border-radius: 12px;
+  overflow: hidden;
+  cursor: pointer;
+  display: block;
+}
+
+.teamLogo {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  object-fit: cover;
+  display: block;
+  transition: aspect-ratio 250ms ease;
+}
+
+/* Zone logo: taille constante */
+.teamLogoWrap {
+  width: 100%;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+}
+
+/* Texte caché, mais animable */
+.teamMeta {
+  max-height: 0;
+  opacity: 0;
+  overflow: hidden;
+  padding: 0 0.75rem;
+  transition: max-height 300ms ease, opacity 200ms ease, padding 300ms ease;
+}
+
+/* OUVERT */
+.teamInner:has(.teamToggle:checked) .teamMeta {
+  max-height: 200px;
+  opacity: 1;
+  padding: 0.75rem;
+}
+
+/* Optionnel : légère mise en avant */
+.teamToggle:checked + .teamInner {
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.18);
+}
+
+section.teamList {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: repeat(14, 1fr);
+}
+
+section.teamList > div {
+  width: 10px;
+  height: 10px;
+  background-color: #580a97;
+}
+
+img {
+  width: 250px;
+}
+
+img#img-2 {
+  width: 100%;
+}
+
+/* 1) Grille mobile-first : 2 colonnes */
+#teamList {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: 1rem;
+  padding: 1rem;
+  overflow: none;
+}
+
+/* 2) Carte */
+.teamCard {
+  position: relative;
+  opacity: 1;
+  transition: opacity 200ms ease, transform 200ms ease;
+}
+
+/* Cache le checkbox mais le garde fonctionnel */
+.teamToggle {
+  position: absolute;
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Zone cliquable */
+
+/* Logo plein cadre */
+.teamLogo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  display: block;
+  transition: height 200ms ease, transform 200ms ease;
+}
+
+.teamToggle:checked + .teamInner .teamLogo {
+  height: clamp(160px, 32vw, 260px);
+}
+
+.teamCard:hover .teamLogo {
+  height: clamp(140px, 28vw, 220px);
+}
+
+.teamCard:hover .teamName {
+  font-size: 1.15rem;
+}
+
+.teamCard:hover .teamDate,
+.teamCard:hover .teamAuthor {
+  font-size: 1rem;
+}
+
+.teamToggle:checked + .teamInner .teamName {
+  font-size: 1.3rem;
+}
+
+.teamToggle:checked + .teamInner .teamDate,
+.teamToggle:checked + .teamInner .teamAuthor {
+  font-size: 1.05rem;
+}
+
+.teamCard:hover {
+  z-index: 2;
+}
+
+.teamCard:hover .teamLogo,
+.teamToggle:checked + .teamInner .teamLogo {
+  height: clamp(96px, 18vw, 160px);
+}
+
+/* Typo simple */
+.teamName {
+  font-size: 1rem;
+  line-height: 1.2;
+}
+
+.teamDate,
+.teamAuthor {
+  font-size: 0.9rem;
+  opacity: 1;
+}
+
+.teamCard {
+  transition: transform 200ms ease, opacity 200ms ease;
+}
+
+/* When ANY card is open (checked), dim the others */
+#teamList:has(.teamToggle:checked) .teamCard {
+  opacity: 0.25;
+}
+
+/* Keep the opened one fully visible */
+#teamList .teamCard:has(.teamToggle:checked) {
+  opacity: 1;
+}
+
+@media (hover: none) {
+  #teamList:hover .teamCard {
+    transform: none;
+  }
+}
+
+/* Desktop only: hover behaves like "open" */
+@media (hover: hover) {
+  /* Ouvre au hover: même style que checked */
+  .teamInner:hover .teamMeta {
+    max-height: 200px;
+    opacity: 1;
+    padding: 0.75rem;
+  }
+
+  /* Dimming au hover: comme quand c'est checked */
+  #teamList:has(.teamInner:hover) .teamCard {
+    opacity: 0.25;
+  }
+
+  #teamList:has(.teamInner:hover) .teamCard:has(.teamInner:hover) {
+    opacity: 1;
+  }
+}
+
+section.number > div.numberOne,
+div.numberTwo {
+  height: 50%;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+div.insightsOne,
+div.insightsTwo {
+  height: 50%;
+  display: grid;
+  align-items: center;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(3, 1fr);
+  grid-template-areas:
+    "a"
+    "b"
+    "c";
+}
+
+div.figureOne > h1 {
+  color: #580a97;
+}
+
+div.insightsOne > h1 {
+  grid-area: a;
+}
+
+div.insightsOne > h3 {
+  grid-area: a;
+}
+
+div.insightsTwo {
+  margin-block-start: 2rem;
+}
+
+section.insights img {
+  width: 200px;
+  max-height: 100px;
+  object-fit: contain;
+}
+
+/* Scroll reveal base */
+.reveal {
+  opacity: 0;
+  transform: translate3d(var(--reveal-x, 0px), 0, 0);
+  transition: opacity 700ms ease, transform 700ms ease;
+  will-change: opacity, transform;
+}
+
+/* When visible */
+.reveal.is-in {
+  opacity: 1;
+  transform: translate3d(0, 0, 0);
+}
+
+/* Different directions */
+.reveal-left {
+  --reveal-x: -40px;
+}
+.reveal-right {
+  --reveal-x: 40px;
+}
+
+/* Optional: a small stagger */
+.reveal[data-delay] {
+  transition-delay: calc(attr(data-delay number) * 1ms);
+}
+
+/* Accessibility: no motion */
+@media (prefers-reduced-motion: reduce) {
+  .reveal {
+    opacity: 1 !important;
+    transform: none !important;
+    transition: none !important;
+  }
+}
+
+/* HR reveal animation */
+.reveal-hr {
+  opacity: 0;
+  transform: scaleX(0);
+  transform-origin: left;
+  transition: opacity 600ms ease, transform 600ms ease;
+  will-change: opacity, transform;
+}
+
+.reveal-hr.is-in {
+  opacity: 1;
+  transform: scaleX(1);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .reveal-hr {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+p {
+  font-family: "DMSans";
+}
+
+#downloadForm {
+  max-width: 420px;
+  margin: 0 auto;
+  padding: 32px 28px;
+  background: #f3eee8;
+  border-radius: 18px;
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.08);
+  display: grid;
+  gap: 18px;
+  font-family: system-ui, -apple-system, sans-serif;
+}
+
+/* Champs texte */
+#downloadForm input[type="text"],
+#downloadForm input[type="email"] {
+  width: 100%;
+  padding: 14px 16px;
+  font-size: 15px;
+  color: #2b2b2b;
+  background: #e7ded4;
+  border: 1px solid #d8cfc5;
+  border-radius: 12px;
+  outline: none;
+  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+}
+
+#downloadForm input::placeholder {
+  color: #7b7168;
+}
+
+/* Focus */
+#downloadForm input:focus {
+  border-color: #580a97;
+  box-shadow: 0 0 0 3px rgba(88, 10, 151, 0.15);
+}
+
+/* Checkbox + label */
+#downloadForm input[type="checkbox"] {
+  accent-color: #580a97;
+  width: 18px;
+  height: 18px;
+}
+
+#downloadForm label {
+  font-size: 14px;
+  color: #4a4a4a;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+}
+
+/* Bouton */
+#downloadForm button {
+  margin-top: 10px;
+  padding: 14px 20px;
+  font-size: 15px;
+  font-weight: 700;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: #fff;
+  background: #580a97;
+  border: none;
+  border-radius: 999px;
+  cursor: pointer;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+/* Hover / Active */
+#downloadForm button:hover {
+  background: #6b14b3;
+  box-shadow: 0 8px 20px rgba(88, 10, 151, 0.35);
+  transform: translateY(-1px);
+}
+
+#downloadForm button:active {
+  transform: translateY(0);
+  box-shadow: 0 4px 10px rgba(88, 10, 151, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 480px) {
+  #downloadForm {
+    padding: 24px 20px;
+  }
+}
+
+img.teamLogo {
+  object-fit: contain;
+}
+
+section.form {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+section.form h3.form {
+  margin-block-end: 15px;
+}
+
+.progress-bar {
+  background: #fff;
+}
+
+progress {
+  background: #fff;
+}
+
+.progress-bar::-webkit-progress-bar {
+  background: #fff;
+}
+
+hr {
+  height: 1.25px;
+  background-color: #aca088;
+  border: none;
+}
+
+hr#sectionSeparation {
+  margin-inline-start: 2rem;
+  margin-inline-end: 2rem;
+}
+
+footer {
+  height: 20vh;
+  background-color: #6b14b3;
+  color: white;
+  padding: 2rem;
+}
+
+footer > div.footer {
+  width: 100%;
+  height: 80%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer > div.footer > a {
+  font-family: "DMSans";
+  color: white;
+  text-decoration: none;
 }
 
 @media screen and (min-width: 768px) {
@@ -176,7 +619,13 @@ section#teamList > div {
   section.home > img {
     object-position: center 80%;
   }
-}
-img {
-    width: 250px;
+
+  section.intro {
+    display: flex;
+    justify-content: space-around;
+  }
+
+  img#img-2 {
+    width: 30vw;
+  }
 }
