@@ -112,6 +112,10 @@ div#homeTitle > h2 {
   text-align: right;
 }
 
+section.intro {
+    padding-block-end: 5rem;
+  }
+
 section.intro > div.image {
   height: 50%;
   display: flex;
@@ -361,6 +365,10 @@ div.insightsOne > h3 {
   grid-area: a;
 }
 
+div.insightsOne, div.insightsTwo > p {
+  font-size: 14px;
+}
+
 div.insightsTwo {
   margin-block-start: 2rem;
 }
@@ -576,6 +584,13 @@ footer > div.footer > a {
   font-family: "DMSans";
   color: white;
   text-decoration: none;
+}
+
+button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
 }
 
 @media screen and (min-width: 768px) {
