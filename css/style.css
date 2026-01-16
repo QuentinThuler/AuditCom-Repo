@@ -23,8 +23,7 @@ html {
 
 body {
   background-color: #f0e4cc;
-  scroll-snap-type: y mandatory;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 section.home,
@@ -32,7 +31,8 @@ section.intro,
 section.number,
 section.insights,
 section.form {
-  height: 100vh;
+  min-height: 100vh;
+  min-height: 100svh;
   padding: 2rem;
   scroll-snap-align: start;
 }
@@ -712,7 +712,7 @@ div.insightsOne > h3 {
 
 section.insights img {
   grid-area: a;
-  width: 300px;
+  width: 150px;
   max-height: 100%;
 }
 
